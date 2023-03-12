@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { model } = require("../../config/connection");
 const { Category, Product } = require("../../models");
 
 // The `/api/categories` endpoint
@@ -8,12 +9,18 @@ router.get("/", async (req, res) => {
   try {
     const categoryData = await Catagory.findAll({
       // be sure to include its associated Products
-      include: {
-        model: Product,
-        atributes: ["id", "product_name", "price", "stock", "catagory_id"],
-      },
+      include: [
+        {
+          model: Category,
+          atributes: ["category_name"],
+        },
+        {
+          model: Tag,
+          atributes: ["tag_name"],
+        },
+      ],
     });
-    return res.status(200).json(categoryData);
+    res.status(200).json(productData);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -22,12 +29,18 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   // find one category by its `id` value
   try {
-    const categoryData = await Category.findOne({
+    const categoryData = await Product.findByPk(req.params.id, {
       // be sure to include its associated Products
-      include: {
-        model: Product,
-        atributes: ["id", "product_name", "price", "stock", "catagory_id"],
-      }
+      include: [
+        {
+          model: Category,
+          atributes: ["category_name"],
+        },
+        {
+          model: Tag,
+          atributes: ["tag_name"],
+        },
+      ],
     });
     return res.status(200).json(categoryData);
   } catch (err) {
@@ -67,8 +80,12 @@ router.delete("/:id", async (req, res) => {
         id: req.params.id,
       },
     });
-    res.status(200).json(categoryData);
-  } catch (err) {}
+    res
+      .status(200)
+      .json("A category has been removed from the database.", categoryData);
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 module.exports = router;
