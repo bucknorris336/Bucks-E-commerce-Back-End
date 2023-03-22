@@ -9,10 +9,11 @@ router.get("/", async (req, res) => {
   try {
     const categoryData = await Category.findAll({
       // be sure to include its associated Products
-      include: {
-        Product,
-        attributes: ["id", "product_name", "price", "stock", "category_id"],
-      },
+      include: [Product],
+      // {
+      //   Product,
+      //   attributes: ["id", "product_name", "price", "stock", "category_id"],
+      // },
     });
 
     res.status(200).json(categoryData);
@@ -24,12 +25,14 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   // find one category by its `id` value
   try {
-    const categoryData = await Category.findByPk(req.params.id, {
+    const categoryData = await Category.findOne({
+      where: { id: req.params.id },
       // be sure to include its associated Products
-      include: {
-        Product,
-        attributes: ["id", "product_name", "price", "stock", "category_id"],
-      },
+      include: [Product],
+      // {
+      //   Product,
+      //   attributes: ["id", "product_name", "price", "stock", "category_id"],
+      // },
     });
     if (!categoryData) {
       res.status(404).json({ message: "No Category by this id!" });
