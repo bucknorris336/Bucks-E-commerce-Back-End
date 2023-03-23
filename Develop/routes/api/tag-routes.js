@@ -36,7 +36,7 @@ router.get("/:id", async (req, res) => {
         },
       ],
     });
-    if (!tagData) {
+    if (!findTagByPk) {
       res.status(404).json({ message: "No Tag by this id!" });
       return;
     }
