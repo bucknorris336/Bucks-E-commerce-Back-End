@@ -8,7 +8,8 @@ Check out a short video walkthrough
 ## Table of Contents
 
 - [Description](#Description)
-- [Installation/Usage ](#installation/Usage)
+- [Installation/Usage](#Installation/Usage)
+- [Tests] (#Tests)
 - [Contributing](#Contributing)
 
 ---
@@ -27,7 +28,13 @@ With the node.js packages installed and database seeded without error, run NPM S
 
 ## Installation/Usage
 
-💾 💻
+💾  💻
+
+Install packages from the package.json file. This project requries:
+- MySQ:2
+- Sequelize
+- dotenv
+
 From the command line, run:
 
 `npm init`
@@ -37,6 +44,11 @@ From the command line, run:
 `npm install sequelize`
 
 `npm install express`
+
+---
+## Tests
+
+Run 'npm run seed' to seed the database and test routes.
 
 ---
 
