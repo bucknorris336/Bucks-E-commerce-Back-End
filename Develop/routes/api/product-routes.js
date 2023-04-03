@@ -13,11 +13,11 @@ router.get("/", async (req, res) => {
       include: [
         {
           model: Category,
-          atributes: ["category_name"],
+          attributes: ["category_name"],
         },
         {
           model: Tag,
-          atributes: ["tag_name"],
+          attributes: ["tag_name"],
         },
       ],
     });
@@ -30,20 +30,20 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   // find a single product by its `id`
   try {
-     const categoryData = await Product.findByPk(req.params.id, {
-       // be sure to include its associated Category and Tag data
-       attributes: ["id", "product_name", "price", "stock"],
-       include: [
-         {
-           model: Category,
-           atributes: ["category_name"],
-         },
-         {
-           model: Tag,
-           atributes: ["tag_name"],
-         },
-       ],
-     });
+    const categoryData = await Product.findByPk(req.params.id, {
+      // be sure to include its associated Category and Tag data
+      attributes: ["id", "product_name", "price", "stock"],
+      include: [
+        {
+          model: Category,
+          attributes: ["category_name"],
+        },
+        {
+          model: Tag,
+          attributes: ["tag_name"],
+        },
+      ],
+    });
     return res.status(200).json(categoryData);
   } catch (err) {
     res.status(500).json(err);
@@ -107,7 +107,8 @@ router.put("/:id", (req, res) => {
       const productTagsToRemove = productTags
         .filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
         .map(({ id }) => id);
-
+      console.log("productTagsToRemove", productTagsToRemove);
+      console.log("newProductTags", newProductTags);
       // run both actions
       return Promise.all([
         ProductTag.destroy({ where: { id: productTagsToRemove } }),
